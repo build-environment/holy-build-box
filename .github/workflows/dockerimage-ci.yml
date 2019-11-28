@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Login to GitHub Docker Package Registry
-      run: docker login docker.pkg.github.com -p ${{ secrets.GITHUB_TOKEN }}
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u nightlark --password-stdin
     - name: Build the Docker image
       run: docker build . --file Dockerfile-64 --tag docker.pkg.github.com/build-environment/holy-build-box/hbb-64:edge
     - name: Push the Docker image
