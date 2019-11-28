@@ -91,7 +91,7 @@ sed -i 's|$arch|i686|; s|\$basearch|i386|g' $CHROOT/etc/yum.repos.d/phusion*.rep
 else
 run yum install -y centos-release-scl
 fi
-run yum install -y devtoolset-8 file patch bzip2 zlib-devel
+run yum install -y devtoolset-8 file patch bzip2 zlib-devel gettext
 
 ### OpenSSL (system version, so that we can download from HTTPS servers with SNI)
 
@@ -312,7 +312,7 @@ if ! eval_bool "$SKIP_GIT"; then
 		activate_holy_build_box_deps_installation_environment
 		run make configure
 		run ./configure --prefix=/hbb --without-tcltk
-		run make -j$MAKE_CONCURRENCY NO_TCLTK=YesPlease NO_GETTEXT=YesPlease
+		run make -j$MAKE_CONCURRENCY
 		run make install
 		run strip --strip-all /hbb/bin/git
 	)
