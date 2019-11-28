@@ -311,7 +311,7 @@ if ! eval_bool "$SKIP_GIT"; then
 	(
 		activate_holy_build_box_deps_installation_environment
 		run make configure
-		run ./configure --prefix=/hbb
+		run ./configure --prefix=/hbb --without-tcltk
 		run make -j$MAKE_CONCURRENCY
 		run make install
 		run strip --strip-all /hbb/bin/git
