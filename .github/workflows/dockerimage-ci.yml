@@ -17,12 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Login to GitHub Docker Package Registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u nightlark --password-stdin
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Build the Docker image
-      run: docker build . --file Dockerfile-64 --tag docker.pkg.github.com/build-environment/holy-build-box/hbb-64:edge
+      run: docker build . --file Dockerfile-64 --tag buildenvironments/holy-build-box-64:edge
     - name: Push the Docker image
-      run: docker push docker.pkg.github.com/build-environment/holy-build-box/hbb-64:edge
+      run: docker push buildenvironments/holy-build-box-64:edge
 
   build_release:
     name: "Build release Docker image"
@@ -30,13 +30,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Login to GitHub Docker Package Registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u nightlark --password-stdin
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile-64 --tag docker.pkg.github.com/build-environment/holy-build-box/hbb-64:latest
-        docker tag docker.pkg.github.com/build-environment/holy-build-box/hbb-64:latest docker.pkg.github.com/build-environment/holy-build-box/hbb-64:${{ github.event.ref }}
+        docker build . --file Dockerfile-64 --tag buildenvironments/holy-build-box-64:latest
+        docker tag buildenvironments/holy-build-box-64:latest buildenvironments/holy-build-box-64:${{ github.event.ref }}
     - name: Push the Docker image
       run: |
-        docker push docker.pkg.github.com/build-environment/holy-build-box/hbb-64:latest
-        docker push docker.pkg.github.com/build-environment/holy-build-box/hbb-64:${{ github.event.ref }}
+        docker push buildenvironments/holy-build-box-64:latest
+        docker push buildenvironments/holy-build-box-64:${{ github.event.ref }}
